@@ -43,6 +43,7 @@
   </div>
 
   <script>
+    // debounce function forces a function to run only a specified amount of times for a specified amount of time passed
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -58,10 +59,25 @@
       };
     };
  
-    const slider = document.querySelectorAll('.slide-in');
+    const sliderImages = document.querySelectorAll('.slide-in');
 
     function checkSlide(e) {
-      console.log(e);
+      //scrollY tells how many pixes you are scrolled down from the top of browser window 
+      // console.log(window.scrollY);
+      sliderImages.forEach(sliderImage => {
+        // add window.innerHeight gives pixel level at bottom of browser window
+        // slideImage.height / 2 = pixel level to slide in image at halfway in view
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+        // offsetTop = how far the top of the image is how far from the top of window in pixels
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        } else {
+          sliderImage.classList.remove('active');
+        }
+      });
     }
 
     window.addEventListener('scroll', debounce(checkSlide));
