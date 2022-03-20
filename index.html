@@ -56,7 +56,16 @@
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
       };
+    };
+ 
+    const slider = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e) {
+      console.log(e);
     }
+
+    window.addEventListener('scroll', debounce(checkSlide));
+
 
   </script>
 
